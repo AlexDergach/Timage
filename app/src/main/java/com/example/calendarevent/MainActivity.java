@@ -20,6 +20,7 @@ import com.example.calendarevent.Model.ToDoModel;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -70,26 +71,17 @@ public class MainActivity extends AppCompatActivity {
 
         //####### Task Start #######
 
-        getSupportActionBar().hide();
+        Objects.requireNonNull(getSupportActionBar()).hide();
 
-        taskList = new ArrayList<>();
+        TimageManager db = new TimageManager(this);
+        db.open();
 
         tasksRecyclerView = findViewById(R.id.tasksRecycleView);
         tasksRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         tasksAdapter = new ToDoAdapter(this);
         tasksRecyclerView.setAdapter(tasksAdapter);
 
-        ToDoModel task = new ToDoModel();
-        task.setTask("This is a Test Task");
-        task.setStatus(0);
-        task.setId(1);
-
-        taskList.add(task);
-        taskList.add(task);
-        taskList.add(task);
-        taskList.add(task);
-        taskList.add(task);
-
+        taskList = db.getAllTask();
         tasksAdapter.setTasks(taskList);
 
     } // End class
