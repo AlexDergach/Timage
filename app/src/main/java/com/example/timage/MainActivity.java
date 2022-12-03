@@ -41,8 +41,7 @@ public class MainActivity extends AppCompatActivity implements Locationlistener 
 
     TextView tvResult;
 
-    private final String url = "http://api.openweathermap.org/data/3.0/weather";
-    private final String url2 = "&exclude=hourly,daily";
+    private final String url = "http://api.openweathermap.org/data/2.5/weather?";
     private final String appid = "";    // Please refer to report
 
     private long minTime = 500;
@@ -52,13 +51,9 @@ public class MainActivity extends AppCompatActivity implements Locationlistener 
     public String lat = "";
     public String lon = "";
 
-
-    public String city;
-    public String country = "IE";
     public List<Address> addresses;
     public String tempUrl = "";
     DecimalFormat df = new DecimalFormat("#.##");
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,34 +73,50 @@ public class MainActivity extends AppCompatActivity implements Locationlistener 
     } // end onCreate
 
     public void getWeatherDetails(View view) {
-        Toast.makeText(this, tempUrl, Toast.LENGTH_LONG).show();
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, tempUrl, new Response.Listener<String>() {
+            
             @Override
             public void onResponse(String response) {
+
                 Log.d("response", response); // for logcat
                 String output = "";
+
                 try {
-                   JSONObject jsonResponse = new JSONObject(response); // Convert response to a JSON object
-                   JSONObject jsonObjectCurrent = jsonResponse.getJSONObject("current");
+                    JSONObject jsonResponse = new JSONObject(response); // Convert response to a JSON object
 
-                   // Get key-value pairs
-                   double temp = jsonObjectCurrent.getDouble("temp") - 273.15;
-                   double feelsLike = jsonObjectCurrent.getDouble("feels_like") - 273.15;
-                   float pressure = jsonObjectCurrent.getInt("pressure");
-                   int humidity = jsonObjectCurrent.getInt("humidity");
-                   int clouds = jsonObjectCurrent.getInt("clouds");
+                    JSONArray jsonArray = jsonResponse.getJSONArray("weather"); // Get array from JSON object response
+                    JSONObject jsonObjectWeather = jsonArray.getJSONObject(0); 
+                    JSONObject jsonObjectMain = jsonResponse.getJSONObject("main"); // pass object name we are looking for
 
+                    // Get key-value pairs
+                    String main = jsonObjectWeather.getString("main");  // Main weather description
+                    String cloudDescription = jsonObjectWeather.getString("description");   // Cloud description
 
-                   tvResult.setTextColor(Color.rgb(68,134,199));
-                   output += "Current weather :"
-                           + "\n Temp: " + df.format(temp) + " °C"
-                           + "\n Feels Like: " + df.format(feelsLike) + " °C"
-                           + "\n Humidity: " + humidity + "%"
-                           + "\n Pressure: " + pressure + " hPa"
-                           + "\n Clouds: " + clouds + " hPa";
+                    double temp = jsonObjectMain.getDouble("temp") - 273.15;
+                    double feelsLike = jsonObjectMain.getDouble("feels_like") - 273.15;
+                    float pressure = jsonObjectMain.getInt("pressure");
+                    int humidity = jsonObjectMain.getInt("humidity");
 
-                    
+                    JSONObject jsonObjectWind = jsonResponse.getJSONObject("wind");
+                    String wind = jsonObjectWind.getString("speed");
+                    JSONObject jsonObjectClouds = jsonResponse.getJSONObject("clouds");
+                    String clouds = jsonObjectClouds.getString("all");
+                    JSONObject jsonObjectSys = jsonResponse.getJSONObject("sys");
+                    String countryName = jsonObjectSys.getString("country");
+                    String cityName = jsonResponse.getString("name");
+
+                    tvResult.setTextColor(Color.rgb(68,134,199));
+                    output += "Current weather of " + cityName + " (" + countryName + ")"
+                            + "\n Atmosphere: " + main
+                            + "\n Skies: " + cloudDescription
+                            + "\n Temp: " + df.format(temp) + " °C"
+                            + "\n Feels Like: " + df.format(feelsLike) + " °C"
+                            + "\n Humidity: " + humidity + "%"
+                            + "\n Wind Speed: " + wind + "m/s (meters per second)"
+                            + "\n Cloudiness: " + clouds + "%"
+                            + "\n Pressure: " + pressure + " hPa";
+
                     tvResult.setText(output);
 
                 } catch (JSONException e) {
@@ -152,8 +163,9 @@ public class MainActivity extends AppCompatActivity implements Locationlistener 
 
                 lat = String.valueOf(location.getLatitude());
                 lon = String.valueOf(location.getLongitude());
-                tempUrl = url + "lat=" + lat + "&lon=" + lon + url2 + "&appid=" + appid;
-                
+
+                tempUrl = url + "lat=" + lat + "&lon=" + lon + "&appid=" + appid;
+
                 Toast.makeText(this, tempUrl, Toast.LENGTH_LONG).show();
             }   // end if
 
