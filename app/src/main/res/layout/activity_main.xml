@@ -8,6 +8,7 @@
     android:background="#e8f4f8"
     android:orientation="vertical"
     android:padding="16dp">
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -26,14 +27,14 @@
         </View>
 
         <Button
+            android:id="@+id/btnGet"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/btnGet"
             android:layout_marginBottom="10dp"
             android:background="#0070c7"
-            android:textColor="@android:color/white"
             android:onClick="getWeatherDetails"
             android:text="Get"
+            android:textColor="@android:color/white"
             app:backgroundTint="@null" />
 
         <ScrollView
@@ -43,12 +44,21 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/tvResult" />
+
         </ScrollView>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1">
-        </View>
+
+        <Button
+            android:id="@+id/btn1"
+            android:layout_width="131dp"
+            android:layout_height="60dp"
+            android:text="Calendar" />
+
+        <Button
+            android:id="@+id/btn2"
+            android:layout_width="131dp"
+            android:layout_height="60dp"
+            android:text="Categories Tasks" />
 
     </LinearLayout>
+
 </LinearLayout>
