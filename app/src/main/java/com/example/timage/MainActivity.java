@@ -45,7 +45,7 @@ import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements Locationlistener {
 
-    TextView txtGreeting, tvResult;
+    TextView txtGreeting, txtWeather, txtTemp, txtTotalTasks, txtTasksToday;
     ImageView weatherIcon;
     Button btn1, btn2;
 
@@ -71,7 +71,15 @@ public class MainActivity extends AppCompatActivity implements Locationlistener 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        tvResult = findViewById(R.id.tvResult);
+        txtGreeting = findViewById(R.id.txtGreeting);
+        txtWeather = findViewById(R.id.txtWeather);
+
+        txtTemp = findViewById(R.id.txtTemp);
+        weatherIcon = (ImageView) findViewById(R.id.icon);
+
+        txtTotalTasks = findViewById(R.id.txtTotalTasks);
+        txtTasksToday = findViewById(R.id.txtTasksToday);
+
         btn1 = (Button)findViewById(R.id.btn1);
         btn2 = (Button)findViewById(R.id.btn2);
 
@@ -117,28 +125,28 @@ public class MainActivity extends AppCompatActivity implements Locationlistener 
 
         // Set greeting text
         if(timeOfDay >= 0 && timeOfDay < 12) {
-            txtGreeting.setText("Good Morning");
-
-            Toast.makeText(this, "Good Morning", Toast.LENGTH_SHORT).show();
+            txtGreeting.setText("Good Morning, GForceV2");
 
         } else if(timeOfDay >= 12 && timeOfDay < 16) {
-            txtGreeting.setText("Good Afternoon");
-
-            Toast.makeText(this, "Good Afternoon", Toast.LENGTH_SHORT).show();
+            txtGreeting.setText("Good Afternoon, GForceV2");
 
         } else if(timeOfDay >= 16 && timeOfDay < 21) {
-            txtGreeting.setText("Good Evening");
-
-            Toast.makeText(this, "Good Evening", Toast.LENGTH_SHORT).show();
+            txtGreeting.setText("Good Evening, GForceV2");
 
         } else if(timeOfDay >= 21 && timeOfDay < 24) {
-            txtGreeting.setText("Good Night");
+            txtGreeting.setText("Good Night, GForceV2");
 
-            Toast.makeText(this, "Good Night", Toast.LENGTH_SHORT).show();
         }   // end elseIf()
+
+
+        // Display tasks
+        txtTotalTasks.setText("Total tasks due: x");
+        txtTasksToday.setText("Tasks due today: x");
+
         
     } // end onCreate
 
+    // TODO: Implement it so that button click isn't required anymore
     public void getWeatherDetails(View view) {
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, tempUrl, new Response.Listener<String>() {
@@ -147,51 +155,31 @@ public class MainActivity extends AppCompatActivity implements Locationlistener 
             public void onResponse(String response) {
 
                 Log.d("response", response); // for logcat
-                String output = "";
 
                 try {
                     JSONObject jsonResponse = new JSONObject(response); // Convert response to a JSON object
 
                     JSONArray jsonArray = jsonResponse.getJSONArray("weather"); // Get array from JSON object response
-                    JSONObject jsonObjectWeather = jsonArray.getJSONObject(0); 
+                    JSONObject jsonObjectWeather = jsonArray.getJSONObject(0);      
                     JSONObject jsonObjectMain = jsonResponse.getJSONObject("main"); // pass object name we are looking for
 
                     // Get key-value pairs
-                    String main = jsonObjectWeather.getString("main");  // Main weather description
-                    String cloudDescription = jsonObjectWeather.getString("description");   // Cloud description
+                    String main = jsonObjectWeather.getString("main"); // Main weather description
+					String cloudDescription = jsonObjectWeather.getString("description"); // Cloud description
+                    String icon = jsonObjectWeather.getString("icon");
 
                     double temp = jsonObjectMain.getDouble("temp") - 273.15;
                     double feelsLike = jsonObjectMain.getDouble("feels_like") - 273.15;
-                    float pressure = jsonObjectMain.getInt("pressure");
-                    int humidity = jsonObjectMain.getInt("humidity");
 
-                    JSONObject jsonObjectWind = jsonResponse.getJSONObject("wind");
-                    String wind = jsonObjectWind.getString("speed");
-                    JSONObject jsonObjectClouds = jsonResponse.getJSONObject("clouds");
-                    String clouds = jsonObjectClouds.getString("all");
-                    JSONObject jsonObjectSys = jsonResponse.getJSONObject("sys");
-                    String countryName = jsonObjectSys.getString("country");
-                    String cityName = jsonResponse.getString("name");
+                    txtWeather.setText(main);
+                    txtTemp.setText(df.format(temp) + " °C" + "feels like " + df.format(feelsLike) + " °C");
 
-                    tvResult.setTextColor(Color.rgb(68,134,199));
-                    output += "Current weather of " + cityName + " (" + countryName + ")"
-                            + "\n Atmosphere: " + main
-                            + "\n Skies: " + cloudDescription
-                            + "\n Temp: " + df.format(temp) + " °C"
-                            + "\n Feels Like: " + df.format(feelsLike) + " °C"
-                            + "\n Humidity: " + humidity + "%"
-                            + "\n Wind Speed: " + wind + "m/s (meters per second)"
-                            + "\n Cloudiness: " + clouds + "%"
-                            + "\n Pressure: " + pressure + " hPa";
-
-                    tvResult.setText(output);
-                    
                     // Dynamically get weather Icon
                     iconName = "@drawable/w" + icon;
                     int imageResource = getResources().getIdentifier(iconName, null, getPackageName());
                     Drawable res = getResources().getDrawable(imageResource);
 
-                    // Set weather icon
+					// Set weather icon
                     weatherIcon.setImageDrawable(res);
 
                 } catch (JSONException e) {
