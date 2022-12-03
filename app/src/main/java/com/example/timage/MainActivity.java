@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.icu.util.Calendar;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -44,7 +45,7 @@ import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements Locationlistener {
 
-    TextView tvResult;
+    TextView txtGreeting, tvResult;
     ImageView weatherIcon;
     Button btn1, btn2;
 
@@ -110,6 +111,32 @@ public class MainActivity extends AppCompatActivity implements Locationlistener 
                 }
         );
 
+        // Get time of day
+        Calendar c = Calendar.getInstance();
+        int timeOfDay = c.get(Calendar.HOUR_OF_DAY);
+
+        // Set greeting text
+        if(timeOfDay >= 0 && timeOfDay < 12) {
+            txtGreeting.setText("Good Morning");
+
+            Toast.makeText(this, "Good Morning", Toast.LENGTH_SHORT).show();
+
+        } else if(timeOfDay >= 12 && timeOfDay < 16) {
+            txtGreeting.setText("Good Afternoon");
+
+            Toast.makeText(this, "Good Afternoon", Toast.LENGTH_SHORT).show();
+
+        } else if(timeOfDay >= 16 && timeOfDay < 21) {
+            txtGreeting.setText("Good Evening");
+
+            Toast.makeText(this, "Good Evening", Toast.LENGTH_SHORT).show();
+
+        } else if(timeOfDay >= 21 && timeOfDay < 24) {
+            txtGreeting.setText("Good Night");
+
+            Toast.makeText(this, "Good Night", Toast.LENGTH_SHORT).show();
+        }   // end elseIf()
+        
     } // end onCreate
 
     public void getWeatherDetails(View view) {
