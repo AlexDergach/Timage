@@ -9,16 +9,19 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,16 +42,19 @@ import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Locale;
 
-
 public class MainActivity extends AppCompatActivity implements Locationlistener {
 
     TextView tvResult;
+    ImageView weatherIcon;
     Button btn1, btn2;
 
     private final String url = "http://api.openweathermap.org/data/2.5/weather?";
     private final String appid = "";    // Please refer to report
     DecimalFormat df = new DecimalFormat("#.##");
  
+    public String icon;
+    public String iconName;
+
     private long minTime = 500;
     private float minDistance = 1;
     private static final int MY_PERMISSION_GPS = 1;
@@ -152,6 +158,14 @@ public class MainActivity extends AppCompatActivity implements Locationlistener 
                             + "\n Pressure: " + pressure + " hPa";
 
                     tvResult.setText(output);
+                    
+                    // Dynamically get weather Icon
+                    iconName = "@drawable/w" + icon;
+                    int imageResource = getResources().getIdentifier(iconName, null, getPackageName());
+                    Drawable res = getResources().getDrawable(imageResource);
+
+                    // Set weather icon
+                    weatherIcon.setImageDrawable(res);
 
                 } catch (JSONException e) {
                     e.printStackTrace();
