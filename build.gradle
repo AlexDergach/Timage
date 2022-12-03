@@ -1,5 +1,25 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
+buildscript{
+    //3D Models plugin
+    repositories{
+        google()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.5.2'
+        classpath 'com.google.ar.sceneform.plugin:1.15.0'
+        api project(":core")
+        api project(":ux")
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+    }
+}
+
 plugins {
     id 'com.android.application' version '7.3.0' apply false
     id 'com.android.library' version '7.3.0' apply false
 }
+
