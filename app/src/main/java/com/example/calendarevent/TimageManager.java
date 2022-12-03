@@ -10,6 +10,12 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.example.calendarevent.Model.ToDoModel;
+
+import java.io.LineNumberInputStream;
+import java.util.ArrayList;
+import java.util.List;
+
 public class TimageManager
 {
     // Initialize variables
@@ -202,6 +208,45 @@ public class TimageManager
                 null);
     }
 
+    // ###### Added by : Jaycel E.
+
+    public List<ToDoModel> getAllTask() {
+        List<ToDoModel> taskList = new ArrayList<>();
+        Cursor cur = null;
+        db.beginTransaction();
+        try {
+            cur = db.query(tdh.DATABASE_TABLE2, null, null, null,null,null,null,null);
+            if(cur != null) {
+                if(cur.moveToFirst()) {
+                    do{
+                        ToDoModel task = new ToDoModel();
+                        task.setId(cur.getInt(cur.getColumnIndexOrThrow(tdh.TABLE2_KEY_ID)));
+                        task.setTask(cur.getString(cur.getColumnIndexOrThrow(tdh.TABLE2_KEY_NAME)));
+                        task.setStatus(cur.getInt(cur.getColumnIndexOrThrow(tdh.TABLE2_KEY_COMPLETED)));
+                        taskList.add(task);
+                    } while(cur.moveToNext());
+                }
+            }
+        } finally {
+            db.endTransaction();
+            assert cur != null;
+            cur.close();
+        }
+        return taskList;
+    } // End of getAllTask
+
+    public void updateStatus(int id, int status) {
+        ContentValues cv = new ContentValues();
+        cv.put(tdh.TABLE2_KEY_COMPLETED, status);
+        db.update(tdh.DATABASE_TABLE2, cv, tdh.TABLE2_KEY_ID + "= ?", new String[] {String.valueOf(id)});
+    } // End update status
+
+    public void updateTask(int id, String task){
+        ContentValues cv = new ContentValues();
+        cv.put(tdh.TABLE2_KEY_NAME, task);
+        db.update(tdh.DATABASE_TABLE2, cv, tdh.TABLE2_KEY_ID + "= ?", new String[] {String.valueOf(id)});
+    } // End update name
+
     ////////////////////////////////////// EVENTS TABLE ///////////////////////////////////////////
 
     // Inserts a row into event_tbl
@@ -277,4 +322,5 @@ public class TimageManager
                 null,
                 null);
     }
+
 }
