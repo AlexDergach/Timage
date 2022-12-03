@@ -1,4 +1,4 @@
-package com.example.timage;
+package com.example.calendarevent;
 
 import org.junit.Test;
 
