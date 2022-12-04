@@ -1,0 +1,40 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:gravity="center_horizontal"
+    android:id="@+id/row_cat"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_marginTop="10dp"
+        android:weightSum="10"
+        android:orientation="horizontal"
+        >
+        <!-- Reference https://stackoverflow.com/questions/3429546/how-do-i-add-a-bullet-symbol-in-textview-->
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="&#8226;"
+            android:textSize="30dp"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            />
+        <!-- Reference completed-->
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="7"
+            android:text="test"
+            android:textSize="30dp"
+            android:id="@+id/cat_title"
+            android:textColor="@color/white"
+            />
+
+
+    </LinearLayout>
+</LinearLayout>

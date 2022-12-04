@@ -42,7 +42,7 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ViewHolder> {
         db.open();
 
         final ToDoModel item = todoList.get(position);
-        holder.task.setText(item.getTask() + " --- Due: " + item.getDate());
+        holder.task.setText(item.getTask() + " --- Due: " + item.getDate() + "/" + item.getMonth() + "/" + item.getYear());
         holder.task.setChecked(toBoolean(item.getStatus()));
         holder.task.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -80,16 +80,6 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ViewHolder> {
         notifyItemRemoved(position);
     }
 
-//    public void editItem(int position){
-//
-//        ToDoModel item = todoList.get(position);
-//        Bundle bundle = new Bundle();
-//        bundle.putInt("id", item.getId());
-//        bundle.putString("task", item.getTask());
-//        AddNewTask fragment = new AddNewTask();
-//        fragment.setArgument(bundle);
-//        fragment.show(activity.getSupportFragmentManager(), AddNewTask.TAG);
-//    }
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
         CheckBox task;

@@ -3,7 +3,7 @@ package com.example.timage.Model;
 public class ToDoModel {
 
     private int id, status;
-    private String task, date;
+    private String task, date, month, year;
 
     public int getId() {
         return id;
@@ -32,5 +32,21 @@ public class ToDoModel {
     public String getDate() { return date; }
 
     public void setDate(String date) {this.date = date; }
+
+    public String getMonth() {
+        return month;
+    }
+
+    public void setMonth(String month) {
+        this.month = month;
+    }
+
+    public String getYear() {
+        return year;
+    }
+
+    public void setYear(String year) {
+        this.year = year;
+    }
 
 }

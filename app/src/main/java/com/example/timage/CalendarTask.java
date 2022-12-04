@@ -52,10 +52,11 @@ public class CalendarTask extends AppCompatActivity {
         db.open();
         Log.i("Here", "Here3");
 
-        Objects.requireNonNull(getSupportActionBar()).hide();
+        //Objects.requireNonNull(getSupportActionBar()).hide();
 
         tasksRecyclerView = findViewById(R.id.tasksRecycleView);
         tasksRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        Log.i("Here", "Here3.5");
         tasksAdapter = new ToDoAdapter(db, CalendarTask.this);
         tasksRecyclerView.setAdapter(tasksAdapter);
         Log.i("Here", "Here4");

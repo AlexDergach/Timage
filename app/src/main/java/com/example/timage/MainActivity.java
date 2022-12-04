@@ -115,7 +115,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
                 new View.OnClickListener() {
                     public void onClick(View view) {
 
-                        Intent myIntent = new Intent(MainActivity.this, TasksCategoriesActivity.class);
+                        Intent myIntent = new Intent(MainActivity.this, PageCategories.class);
 
                         // Push into the stack
                         startActivity(myIntent);

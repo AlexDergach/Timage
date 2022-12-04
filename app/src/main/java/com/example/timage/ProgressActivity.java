@@ -12,6 +12,11 @@ import com.squareup.picasso.Picasso;
 
 public class ProgressActivity extends AppCompatActivity {
 
+    /**
+     * Developed by Alexander Dergach - C20401562
+     */
+
+
     private Accelerometer accelerometer;
     private Gyroscope gyroscope;
 

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    tools:context=".PageTasks"
+    android:background="@color/dark_grey">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="130dp"
+        android:layout_marginTop="100dp"
+        android:textAlignment="center"
+        android:id="@+id/noList"
+        />
+
+    <ListView
+
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:id="@+id/list"
+        />
+
+    <!-- Reference: https://stackoverflow.com/questions/9884202/custom-circle-button -->
+    <Button
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:background="@drawable/round_button"
+        android:gravity="center_vertical|center_horizontal"
+        android:text="+"
+        android:textSize="20dp"
+        android:layout_marginTop="600dp"
+        android:layout_marginLeft="270dp"
+        android:textColor="#fff"
+        android:id="@+id/addTask"/>
+    <!-- Reference complete -->
+
+</RelativeLayout>
