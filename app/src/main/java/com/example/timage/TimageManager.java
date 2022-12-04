@@ -11,6 +11,7 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import com.example.timage.Model.CalendarModel;
 import com.example.timage.Model.ToDoModel;
 
 import java.io.LineNumberInputStream;
@@ -32,6 +33,7 @@ public class TimageManager {
     public TimageManager open() throws SQLException {
         tdh = new TimageDatabaseHelper(context);
         db = tdh.getWritableDatabase();
+        db = tdh.getReadableDatabase();
 
         //db.execSQL("UPDATE SQLITE_SEQUENCE SET SEQ=0 WHERE NAME='task_tbl';");
         return this;
@@ -114,23 +116,22 @@ public class TimageManager {
     //////////////////////////////////// TASKS TABLE ///////////////////////////////////////
 
     // Inserts a row into task_tbl
-    public long insertTask(String name, String date, String month, String year, String time, String desc, int completed, String sLink, int cat_id) {
+    public long insertTask(String name,String time, String date, String month, String year,  String desc, int completed, int cat_id) {
         ContentValues initVals = new ContentValues();
         initVals.put(tdh.TABLE2_KEY_NAME, name);
+        initVals.put(tdh.TABLE2_KEY_TIME, time);
         initVals.put(tdh.TABLE2_KEY_DATE, date);
         initVals.put(tdh.TABLE2_KEY_MONTH, month);
         initVals.put(tdh.TABLE2_KEY_YEAR, year);
-        initVals.put(tdh.TABLE2_KEY_TIME, time);
         initVals.put(tdh.TABLE2_KEY_DESC, desc);
         initVals.put(tdh.TABLE2_KEY_COMPLETED, completed);
-        initVals.put(tdh.TABLE2_KEY_SOURCELINK, sLink);
         initVals.put(tdh.TABLE2_KEY_CATEGORYID, cat_id);
 
         return db.insert(tdh.DATABASE_TABLE2, null, initVals);
     }
 
     // Updates a row in task_tbl
-    public boolean updateTask(long rowID, String name, String date, String month, String year, String time, String desc, int completed, String sLink, int cat_id) {
+    public boolean updateTask(long rowID, String name, String date, String month, String year, String time, String desc, int completed, int cat_id) {
         ContentValues args = new ContentValues();
         args.put(tdh.TABLE2_KEY_NAME, name);
         args.put(tdh.TABLE2_KEY_DATE, date);
@@ -139,7 +140,6 @@ public class TimageManager {
         args.put(tdh.TABLE2_KEY_TIME, time);
         args.put(tdh.TABLE2_KEY_DESC, desc);
         args.put(tdh.TABLE2_KEY_COMPLETED, completed);
-        args.put(tdh.TABLE2_KEY_SOURCELINK, sLink);
         args.put(tdh.TABLE2_KEY_CATEGORYID, cat_id);
 
         return db.update(tdh.DATABASE_TABLE2, args,
@@ -163,7 +163,6 @@ public class TimageManager {
                         tdh.TABLE2_KEY_TIME,
                         tdh.TABLE2_KEY_DESC,
                         tdh.TABLE2_KEY_COMPLETED,
-                        tdh.TABLE2_KEY_SOURCELINK,
                         tdh.TABLE2_KEY_CATEGORYID},
                 tdh.TABLE2_KEY_ID + "=" + rowID,
                 null,
@@ -187,7 +186,6 @@ public class TimageManager {
                         tdh.TABLE2_KEY_TIME,
                         tdh.TABLE2_KEY_DESC,
                         tdh.TABLE2_KEY_COMPLETED,
-                        tdh.TABLE2_KEY_SOURCELINK,
                         tdh.TABLE2_KEY_CATEGORYID},
                 null,
                 null,
@@ -197,23 +195,37 @@ public class TimageManager {
     }
 
     // ############### Developer: Jaycel Estrellado ############
+
     // ############### CALENDAR START ###############
 
-    public Cursor getDateTasks(String date, SQLiteDatabase database) {
+    public void SaveTask(String task, String time, String date, String month, String year){
+        ContentValues cv = new ContentValues();
+        cv.put(tdh.TABLE2_KEY_NAME, task);
+        cv.put(tdh.TABLE2_KEY_TIME, time);
+        cv.put(tdh.TABLE2_KEY_DATE, date);
+        cv.put(tdh.TABLE2_KEY_MONTH, month);
+        cv.put(tdh.TABLE2_KEY_YEAR, year);
+        db.insert(tdh.DATABASE_TABLE2, null, cv);
+
+
+    }
+
+    public Cursor getDateTasks(String date) {
         String[] Projections = {tdh.DATABASE_TABLE2,
                 tdh.TABLE2_KEY_NAME,
+                tdh.TABLE2_KEY_TIME,
                 tdh.TABLE2_KEY_DATE,
                 tdh.TABLE2_KEY_MONTH,
-                tdh.TABLE2_KEY_YEAR,
-                tdh.TABLE2_KEY_TIME};
+                tdh.TABLE2_KEY_YEAR
+                };
 
         String Selection = tdh.TABLE2_KEY_DATE + "=?";
         String[] SelectionArgs = {date};
 
-        return db.query(tdh.DATABASE_TABLE2, Projections, Selection, SelectionArgs, null, null, null, null);
+        return db.query(tdh.DATABASE_TABLE2, Projections, Selection, SelectionArgs, null, null, null);
     } // End of getDateTasks
 
-    public Cursor getDateTasksPerMonth(String month, String year, SQLiteDatabase database) {
+    public Cursor getDateTasksPerMonth(String month, String year) {
         String[] Projections = {tdh.DATABASE_TABLE2,
                 tdh.TABLE2_KEY_NAME,
                 tdh.TABLE2_KEY_DATE,
@@ -224,8 +236,36 @@ public class TimageManager {
         String Selection = tdh.TABLE2_KEY_MONTH + "=? and " + tdh.TABLE2_KEY_YEAR + "=?";
         String[] SelectionArgs = {month,year};
 
-        return db.query(tdh.DATABASE_TABLE2, Projections, Selection, SelectionArgs, null, null, null, null);
+        return db.query(tdh.DATABASE_TABLE2, Projections, Selection, SelectionArgs, null, null, null);
     } // End of getDateTasks
+
+    public List<CalendarModel> getDateTask(String Month, String year){
+        List<CalendarModel> calList = new ArrayList<>();
+        Cursor cursor = null;
+        db.beginTransaction();
+        try {
+            cursor = db.query(tdh.DATABASE_TABLE2, null, null, null, null, null, null, null);
+            if (cursor != null) {
+                if (cursor.moveToFirst()) {
+                    do {
+                        CalendarModel cal = new CalendarModel();
+                        cal.setId(cursor.getString(cursor.getColumnIndexOrThrow(tdh.TABLE2_KEY_ID)));
+                        cal.setTask(cursor.getString(cursor.getColumnIndexOrThrow(tdh.TABLE2_KEY_NAME)));
+                        cal.setTime(cursor.getString(cursor.getColumnIndexOrThrow(tdh.TABLE2_KEY_TIME)));
+                        cal.setDate(cursor.getString(cursor.getColumnIndexOrThrow(tdh.TABLE2_KEY_DATE)));
+                        cal.setMonth(cursor.getString(cursor.getColumnIndexOrThrow(tdh.TABLE2_KEY_MONTH)));
+                        cal.setYear(cursor.getString(cursor.getColumnIndexOrThrow(tdh.TABLE2_KEY_YEAR)));
+                        calList.add(cal);
+                    } while (cursor.moveToNext());
+                }
+            }
+        } finally {
+                db.endTransaction();
+                assert cursor != null;
+                cursor.close();
+        } // End finally
+        return calList;
+    }
 
     // ############# CALENDAR END ###############
 
@@ -263,11 +303,5 @@ public class TimageManager {
         cv.put(tdh.TABLE2_KEY_COMPLETED, status);
         db.update(tdh.DATABASE_TABLE2, cv, tdh.TABLE2_KEY_ID + "= ?" , new String[]{String.valueOf(id)});
     } // End update status
-
-//    public void updateTask(int id, String task){
-//        ContentValues cv = new ContentValues();
-//        cv.put(tdh.TABLE2_KEY_NAME, task);
-//        db.update(tdh.DATABASE_TABLE2, cv, tdh.TABLE2_KEY_ID + "= ?", new String[] {String.valueOf(id)});
-//    } // End update name
 
 }
