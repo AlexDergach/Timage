@@ -3,20 +3,3 @@ plugins {
     id 'com.android.application' version '7.3.0' apply false
     id 'com.android.library' version '7.3.0' apply false
 }
-//buildscript {
-//    repositories {
-//        maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
-//    }
-//
-//
-//    dependencies {
-//        implementation 'com.squareup.picasso:picasso:2.6.0-SNAPSHOT'
-//    }
-//}
-//
-//allprojects {
-//    repositories {
-//        google()
-//        jcenter()
-//    }
-//}
