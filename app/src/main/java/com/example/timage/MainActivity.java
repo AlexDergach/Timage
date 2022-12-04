@@ -4,19 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-import android.annotation.SuppressLint;
-import android.graphics.Color;
-import android.net.Uri;
-import android.os.Bundle;
-import android.view.MotionEvent;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import com.daimajia.androidanimations.library.Techniques;
-import com.daimajia.androidanimations.library.YoYo;
-import com.squareup.picasso.Picasso;
-
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -62,10 +49,10 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
     ImageView weatherIcon;
     Button btn1, btn2, btn3;
 
-    private final String url = "http://api.openweathermap.org/data/2.5/weather?";
-    private final String appid = "";    // Please refer to report
+    private final String url = "https://api.openweathermap.org/data/2.5/weather?";
+    private final String appid = "6697b6da9316f98c56de1e2d8ea95c3c";
     DecimalFormat df = new DecimalFormat("#.##");
- 
+
     public String icon;
     public String iconName;
 
@@ -78,17 +65,14 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
     public String lon = "";
 
     public List<Address> addresses;
-    public String tempUrl = "";
+    public String tempUrl;
 
 
-
-    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
         txtGreeting = findViewById(R.id.txtGreeting);
         txtWeather = findViewById(R.id.txtWeather);
 
@@ -101,7 +85,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
 
         btn1 = (Button)findViewById(R.id.btn1);
         btn2 = (Button)findViewById(R.id.btn2);
-        btn3 = (Button)findViewById(R.id.btn3);
+		btn3 = (Button)findViewById(R.id.btn3);
 
         // Runtime permissions - Get Access Location
         if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION)
@@ -110,10 +94,10 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
                     Manifest.permission.ACCESS_FINE_LOCATION
             },MY_PERMISSION_GPS);
         } else {
-            setUpLocationTracking();
+            getWeatherDetails();
         }
 
-        // Switch to calendar page
+		// Switch to calendar page
         btn1.setOnClickListener(
                 new View.OnClickListener() {
                     public void onClick(View view) {
@@ -125,8 +109,8 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
                     }
                 }
         );
-
-        // Switch to tasks/categories page
+		
+		// Switch to tasks/categories page
         btn2.setOnClickListener(
                 new View.OnClickListener() {
                     public void onClick(View view) {
@@ -139,70 +123,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
                 }
         );
 
-        // Switch to progress page page
-        btn3.setOnClickListener(
-                new View.OnClickListener() {
-                    public void onClick(View view) {
-
-                        Intent myIntent = new Intent(MainActivity.this, ProgressActivity.class);
-
-                        // Push into the stack
-                        startActivity(myIntent);
-                    }
-                }
-        );
-
-        txtGreeting = findViewById(R.id.txtGreeting);
-        txtWeather = findViewById(R.id.txtWeather);
-
-        txtTemp = findViewById(R.id.txtTemp);
-        txtFeelsLikeTemp = findViewById(R.id.txtFeelsLikeTemp);
-        weatherIcon = (ImageView) findViewById(R.id.icon);
-
-        txtTotalTasks = findViewById(R.id.txtTotalTasks);
-        txtTasksToday = findViewById(R.id.txtTasksToday);
-
-        btn1 = (Button)findViewById(R.id.btn1);
-        btn2 = (Button)findViewById(R.id.btn2);
-        btn3 = (Button)findViewById(R.id.btn3);
-
-        // Runtime permissions - Get Access Location
-        if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED){
-            ActivityCompat.requestPermissions(MainActivity.this,new String[]{
-                    Manifest.permission.ACCESS_FINE_LOCATION
-            },MY_PERMISSION_GPS);
-        } else {
-            setUpLocationTracking();
-        }
-
-        // Switch to calendar page
-        btn1.setOnClickListener(
-                new View.OnClickListener() {
-                    public void onClick(View view) {
-
-                        Intent myIntent = new Intent(MainActivity.this, CalendarActivity.class);
-
-                        // Push into the stack
-                        startActivity(myIntent);
-                    }
-                }
-        );
-
-        // Switch to tasks/calendar page
-        btn2.setOnClickListener(
-                new View.OnClickListener() {
-                    public void onClick(View view) {
-
-                        Intent myIntent = new Intent(MainActivity.this, TasksCategoriesActivity.class);
-
-                        // Push into the stack
-                        startActivity(myIntent);
-                    }
-                }
-        );
-
-        // Switch to progress page 
+        // Switch to progress page
         btn3.setOnClickListener(
                 new View.OnClickListener() {
                     public void onClick(View view) {
@@ -221,33 +142,35 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
 
         // Set greeting text
         if(timeOfDay >= 0 && timeOfDay < 12) {
-            txtGreeting.setText("Good Morning, GForceV2");
+            txtGreeting.setText("Good Morning, Susan");
+
 
         } else if(timeOfDay >= 12 && timeOfDay < 16) {
-            txtGreeting.setText("Good Afternoon, GForceV2");
+            txtGreeting.setText("Good Afternoon, Susan");
+
 
         } else if(timeOfDay >= 16 && timeOfDay < 21) {
-            txtGreeting.setText("Good Evening, GForceV2");
+            txtGreeting.setText("Good Evening, Susan");
+
 
         } else if(timeOfDay >= 21 && timeOfDay < 24) {
-            txtGreeting.setText("Good Night, GForceV2");
+            txtGreeting.setText("Good Night, Susan");
 
         }   // end elseIf()
 
 
-        // Display tasks
         txtTotalTasks.setText("Total tasks due: x");
         txtTasksToday.setText("Tasks due today: x");
 
-        
-    } // end onCreate
+    }   // end onCreate()
 
-    public void getWeatherDetails(View view) {
+	// TODO: Implement it so that button click isn't required anymore
+    public void getWeatherDetails() {
 
         setUpLocationTracking();
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, tempUrl, new Response.Listener<String>() {
-            
+
             @Override
             public void onResponse(String response) {
 
@@ -268,7 +191,8 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
                     double temp = jsonObjectMain.getDouble("temp") - 273.15;
                     double feelsLike = jsonObjectMain.getDouble("feels_like") - 273.15;
 
-                    txtWeather.setText("Skies" + main);
+
+                    txtWeather.setText("Skies: " + main);
                     txtTemp.setText(df.format(temp) + " °C" );
                     txtFeelsLikeTemp.setText("feels like " + df.format(feelsLike) + " °C");
 
@@ -305,12 +229,10 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
             locationManager = (LocationManager) getApplicationContext().getSystemService(LOCATION_SERVICE);
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, minTime, minDistance, MainActivity.this);
 
-            // If no location provided, check again
             if(locationManager != null) {
                 location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
                 onLocationChanged(location);
             }
-
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -327,23 +249,25 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
             //Address class for fetching address, country ect
             addresses = geocoder.getFromLocation(location.getLatitude(),location.getLongitude(),1);
             Log.i("Test", Integer.toString(addresses.size()));
-            if(addresses.size() >0) {
+            if(addresses.size() >0){
+                String addressName = addresses.get(0).getFeatureName() + ", " + addresses.get(0).getLocality()
+                        + ", " + addresses.get(0).getAdminArea() + ", " +
+                        addresses.get(0).getCountryName();
 
                 lat = String.valueOf(location.getLatitude());
                 lon = String.valueOf(location.getLongitude());
 
                 tempUrl = url + "lat=" + lat + "&lon=" + lon + "&appid=" + appid;
-
             }   // end if
 
-        } catch (Exception e){
+        }catch (Exception e){
             Log.i("Catch", "Here");
             StringWriter sw = new StringWriter();
             e.printStackTrace(new PrintWriter(sw));
             String exceptionAsString = sw.toString();
             Log.i("Catch", exceptionAsString);
         }
-    } // end onLocationChanged()
+    }
 
     // this is a callback method associated with the user having entered in their permission -
     // the compiler will prompt you to add this call back method, when you put in the code for the permission check earlier.
@@ -360,6 +284,5 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
                 }
                 break;
         }
-    } // end onRequestPermissionResult
-
-} // end MainActivity()
+    }
+}

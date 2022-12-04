@@ -7,31 +7,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/darkGrey"
     android:orientation="vertical"
-    android:padding="16dp">>
+    android:padding="16dp">
 
-    <ImageView
-        android:id="@+id/imageone"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.305" />
-
-    <ImageView
-        android:id="@+id/imagetwo"
-        android:adjustViewBounds= "true"
-        android:scaleType="fitCenter"
-        android:layout_width="60dp"
-        android:layout_height="145dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.535"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.81" />
 
     <Space
         android:layout_width="match_parent"
