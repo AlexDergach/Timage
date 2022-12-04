@@ -1,3 +1,7 @@
+/**
+ * Developed by: Jaycel Estrellado - C20372876
+ */
+
 package com.example.timage;
 
 import androidx.appcompat.app.AppCompatActivity;

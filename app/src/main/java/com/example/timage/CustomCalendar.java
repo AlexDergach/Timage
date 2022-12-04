@@ -1,3 +1,7 @@
+/**
+ * Developed By: Jaycel Estrellado - C20372876
+ */
+
 package com.example.timage;
 
 import android.app.AlertDialog;
