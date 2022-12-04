@@ -7,11 +7,13 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.MotionEvent;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
+import com.squareup.picasso.Picasso;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -30,6 +32,16 @@ public class MainActivity extends AppCompatActivity {
         accelerometer = new Accelerometer(this);
         gyroscope = new Gyroscope(this);
         myT = findViewById(R.id.text);
+
+        ImageView imageView = findViewById(R.id.imageone);
+        ImageView imageView2 = findViewById(R.id.imagetwo);
+
+
+        String url = "https://cdn.discordapp.com/attachments/593568061924179968/1048798479482355782/Outline.png";
+        String url2 = "https://cdn.discordapp.com/attachments/593568061924179968/1048796707539914904/Project.png";
+
+        Picasso.with(this).load(url).into(imageView);
+        Picasso.with(this).load(url2).into(imageView2);
 
 
         accelerometer.setListener(new Accelerometer.Listener(){

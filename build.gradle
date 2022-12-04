@@ -5,12 +5,12 @@ plugins {
 }
 //buildscript {
 //    repositories {
-//        google()
-//        jcenter()
+//        maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
 //    }
+//
+//
 //    dependencies {
-//        classpath "com.android.tools.build:gradle:7.3.1"
-//        classpath "com.google.ar.sceneform:plugin:1.17.1"
+//        implementation 'com.squareup.picasso:picasso:2.6.0-SNAPSHOT'
 //    }
 //}
 //
