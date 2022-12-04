@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".MainActivity"
-    android:background="#e8f4f8"
+    android:background="@color/darkGrey"
     android:orientation="vertical"
     android:padding="16dp">
 
@@ -25,7 +25,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="6"
-            android:textSize="40sp"
+            android:textSize="30sp"
+            android:textColor="@color/white"
             android:text="" />
 
         <TextView
@@ -34,6 +35,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="4"
+            android:textSize="15sp"
+            android:textColor="@color/white"
             android:text=""/>
 
     </LinearLayout>
@@ -44,14 +47,38 @@
         android:orientation="horizontal"
         android:weightSum="10">
 
-        <TextView
-            android:id="@+id/txtTemp"
+        <LinearLayout
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="5"
-            android:text="" />
+            android:orientation="vertical">
 
-            <ImageView
+
+            <TextView
+                android:id="@+id/txtTemp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="3"
+                android:text=""
+                android:textSize="30dp"
+                android:textColor="@color/white"
+                />
+
+            <TextView
+                android:id="@+id/txtFeelsLikeTemp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="2"
+                android:text=""
+                android:textSize="20dp"
+                android:textColor="@color/white"
+                />
+
+        </LinearLayout>
+
+        <ImageView
                 android:id="@+id/icon"
                 android:layout_width="0dp"
                 android:layout_weight="5"
@@ -68,17 +95,24 @@
 
         <TextView
             android:id="@+id/txtTotalTasks"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="5"
+            android:layout_gravity="center"
+            android:textSize="20dp"
+            android:textColor="@color/white"
             android:text="" />
 
         <TextView
             android:id="@+id/txtTasksToday"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="5"
+            android:layout_gravity="center"
+            android:textSize="20dp"
+            android:textColor="@color/white"
             android:text="" />
+
     </LinearLayout>
 
     <LinearLayout
@@ -91,9 +125,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
-            android:background="#0070c7"
+            android:background="@drawable/rounded_corner"
             android:onClick="getWeatherDetails"
-            android:text="Get weather"
+            android:text="Update Weather"
             android:textColor="@android:color/white"
             app:backgroundTint="@null" />
 
@@ -107,16 +141,22 @@
 
         <Button
             android:id="@+id/btn1"
-            android:layout_width="131dp"
+            android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_weight="5"
+            android:background="@drawable/rounded_corner"
+            android:textColor="@android:color/white"
+            app:backgroundTint="@null"
             android:text="Calendar" />
 
         <Button
             android:id="@+id/btn2"
-            android:layout_width="131dp"
+            android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_weight="5"
+            android:background="@drawable/rounded_corner"
+            android:textColor="@android:color/white"
+            app:backgroundTint="@null"
             android:text="Categories/Tasks" />
 
     </LinearLayout>
