@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity implements Locationlistener 
 
     TextView txtGreeting, txtWeather, txtTemp, txtFeelsLikeTemp, txtTotalTasks, txtTasksToday;
     ImageView weatherIcon;
-    Button btn1, btn2;
+    Button btn1, btn2, btn3;
 
     private final String url = "http://api.openweathermap.org/data/2.5/weather?";
     private final String appid = "";    // Please refer to report
@@ -60,6 +60,7 @@ public class MainActivity extends AppCompatActivity implements Locationlistener 
     private float minDistance = 1;
     private static final int MY_PERMISSION_GPS = 1;
     public LocationManager locationManager;
+    public Location location;
     public String lat = "";
     public String lon = "";
 
@@ -83,6 +84,7 @@ public class MainActivity extends AppCompatActivity implements Locationlistener 
 
         btn1 = (Button)findViewById(R.id.btn1);
         btn2 = (Button)findViewById(R.id.btn2);
+        btn3 = (Button)findViewById(R.id.btn3);
 
         // Runtime permissions - Get Access Location
         if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION)
@@ -120,6 +122,19 @@ public class MainActivity extends AppCompatActivity implements Locationlistener 
                 }
         );
 
+        // Switch to progress page 
+        btn3.setOnClickListener(
+                new View.OnClickListener() {
+                    public void onClick(View view) {
+
+                        Intent myIntent = new Intent(MainActivity.this, ProgressActivity.class);
+
+                        // Push into the stack
+                        startActivity(myIntent);
+                    }
+                }
+        );
+
         // Get time of day
         Calendar c = Calendar.getInstance();
         int timeOfDay = c.get(Calendar.HOUR_OF_DAY);
@@ -147,8 +162,9 @@ public class MainActivity extends AppCompatActivity implements Locationlistener 
         
     } // end onCreate
 
-    // TODO: Implement it so that button click isn't required anymore
     public void getWeatherDetails(View view) {
+
+        setUpLocationTracking();
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, tempUrl, new Response.Listener<String>() {
             
@@ -209,6 +225,13 @@ public class MainActivity extends AppCompatActivity implements Locationlistener 
             locationManager = (LocationManager) getApplicationContext().getSystemService(LOCATION_SERVICE);
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, minTime, minDistance, MainActivity.this);
 
+            // If no location provided, check again
+            if(locationManager != null) {
+                location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                onLocationChanged(location);
+            }
+
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -231,7 +254,6 @@ public class MainActivity extends AppCompatActivity implements Locationlistener 
 
                 tempUrl = url + "lat=" + lat + "&lon=" + lon + "&appid=" + appid;
 
-                Toast.makeText(this, tempUrl, Toast.LENGTH_LONG).show();
             }   // end if
 
         } catch (Exception e){
