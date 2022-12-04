@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
     Button btn1, btn2, btn3;
 
     private final String url = "https://api.openweathermap.org/data/2.5/weather?";
-    private final String appid = "";
+    private final String appid = "";//Please Refer to report API id sent sepereatly from the code due to privacy reasons
     DecimalFormat df = new DecimalFormat("#.##");
 
     public String icon;
