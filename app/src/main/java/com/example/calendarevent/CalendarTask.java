@@ -2,6 +2,7 @@ package com.example.calendarevent;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -77,19 +78,16 @@ public class CalendarTask extends AppCompatActivity {
         tasksAdapter = new ToDoAdapter(db, CalendarTask.this);
         tasksRecyclerView.setAdapter(tasksAdapter);
 
+        // Define helper
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new RecyclerItemTouchHelper(tasksAdapter));
+        itemTouchHelper.attachToRecyclerView(tasksRecyclerView);
+
         taskList = db.getAllTask();
         tasksAdapter.setTasks(taskList);
 
-
+        //###### Task End ######
 
     } // End class
-
-//    public void InsertDB(View view){
-//        ContentValues contentValues = new ContentValues();
-//        contentValues.put("Date", selectedDate);
-//        contentValues.put("Event", editText.getText().toString());
-//        sqLiteDatabase.insert("EventCal", null, contentValues);
-//    } // End class
 
     public void ReadDB(View view){
 
