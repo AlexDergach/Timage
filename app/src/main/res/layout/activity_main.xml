@@ -121,13 +121,13 @@
         android:orientation="vertical">
 
         <Button
-            android:id="@+id/btnGet"
-            android:layout_width="match_parent"
+            android:id="@+id/btn3"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:background="@drawable/rounded_corner"
-            android:onClick="getWeatherDetails"
-            android:text="Update Weather"
+            android:layout_gravity="center"
+            android:text="Progress Bar"
             android:textColor="@android:color/white"
             app:backgroundTint="@null" />
 
@@ -160,6 +160,5 @@
             android:text="Categories/Tasks" />
 
     </LinearLayout>
-
 
 </LinearLayout>
