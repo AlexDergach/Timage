@@ -21,7 +21,6 @@ public class MainActivity extends AppCompatActivity {
     //Variables
     private Accelerometer accelerometer;
     private Gyroscope gyroscope;
-    private TextView myT;
 
     private int taskComplete;
     private int taskTotal;
@@ -40,8 +39,6 @@ public class MainActivity extends AppCompatActivity {
         accelerometer = new Accelerometer(this);
         gyroscope = new Gyroscope(this);
 
-        myT = findViewById(R.id.text);
-
         imageView = findViewById(R.id.imageone);
         //Change opacity
         imageView.setAlpha(17);
@@ -57,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
         Picasso.with(this).load(url2).into(imageView2);
 
         //Method for calculating the size to the tasks
-        calculateProgressFlame(15,15);
+        calculateProgressFlame(10,15);
 
         //LISTENERS FOR ACCELEROMETER AND GYROSCOPE
 
@@ -70,6 +67,14 @@ public class MainActivity extends AppCompatActivity {
                     animateImage(s);
                 }else if (tx < -1.0f){
                     Techniques s = Techniques.Shake;
+                    animateImage(s);
+
+                }else if (ty < -1.0f){
+                    Techniques s = Techniques.Bounce;
+                    animateImage(s);
+
+                }else if (ty > 1.0f){
+                    Techniques s = Techniques.Bounce;
                     animateImage(s);
 
                 }
