@@ -9,5 +9,6 @@
     <color name="white">#FFFFFFFF</color>
     <color name="bg">#1C252D</color>
     <color name="turquoise">#108993</color>
-    <color name="darkGrey">#1C252D</color>
+    <color name="dark_grey">#1C252D</color>
+    <color name="grey">#808080</color>
 </resources>

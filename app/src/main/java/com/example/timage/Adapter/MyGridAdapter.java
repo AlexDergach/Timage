@@ -53,7 +53,7 @@ public class MyGridAdapter extends ArrayAdapter {
         }
 
         if(displayMonth == curMonth && displayYear == curYear) {
-            view.setBackgroundColor(getContext().getResources().getColor(R.color.turqouis));
+            view.setBackgroundColor(getContext().getResources().getColor(R.color.turquoise));
         }
         else {
             view.setBackgroundColor(Color.parseColor("#cccccc"));

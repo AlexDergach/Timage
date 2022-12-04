@@ -102,7 +102,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
                 new View.OnClickListener() {
                     public void onClick(View view) {
 
-                        Intent myIntent = new Intent(MainActivity.this, CalendarActivity.class);
+                        Intent myIntent = new Intent(MainActivity.this, CalendarTask.class);
 
                         // Push into the stack
                         startActivity(myIntent);
