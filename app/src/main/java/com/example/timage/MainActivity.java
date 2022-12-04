@@ -46,12 +46,12 @@ public class MainActivity extends AppCompatActivity {
 
 
         String url = "https://cdn.discordapp.com/attachments/593568061924179968/1048798479482355782/Outline.png";
-        String url2 = "https://cdn.discordapp.com/attachments/593568061924179968/1048796707539914904/Project.png";
+        String url2 = "https://cdn.discordapp.com/attachments/593568061924179968/1049040464285794304/Project.png";
 
         Picasso.with(this).load(url).into(imageView);
         Picasso.with(this).load(url2).into(imageView2);
 
-        calculateProgressFlame(0,15);
+        calculateProgressFlame(15,15);
 
 
         accelerometer.setListener(new Accelerometer.Listener(){
@@ -99,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
             YoYo.with(s)
                     .duration(700)
                     .repeat(1)
-                    .playOn(myT);
+                    .playOn(imageView2);
     }
 
     private void calculateProgressFlame(int taskComplete, int taskTotal){
