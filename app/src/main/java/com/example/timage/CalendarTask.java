@@ -1,5 +1,9 @@
 /**
  * Developed by: Jaycel Estrellado - C20372876
+ * 
+ * References: 
+ * Youtube Link: https://www.youtube.com/watch?v=ASQIvPwQffg&list=PLzEWSvaHx_Z2MeyGNQeUCEktmnJBp8136&index=2
+ * Youtube Link: https://www.youtube.com/watch?v=L2datMyLGHU&t=2014s
  */
 
 package com.example.timage;
