@@ -1,4 +1,4 @@
-package com.example.timage.Adapter;
+package com.example.assignment.Adapter;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -11,16 +11,12 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.example.timage.Model.CalendarModel;
-import com.example.timage.R;
+import com.example.assignment.Model.CalendarModel;
+import com.example.assignment.R;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 public class MyGridAdapter extends ArrayAdapter {
 
@@ -64,31 +60,9 @@ public class MyGridAdapter extends ArrayAdapter {
         }
 
         TextView dayNum = view.findViewById(R.id.day);
-        TextView taskNumber = view.findViewById(R.id.tasks_id);
         dayNum.setText(String.valueOf(dayNo));
-        Calendar taskCalendar = Calendar.getInstance();
-        ArrayList<String> arrayList = new ArrayList<>();
-        for(int i = 0; i < tasks.size(); i++) {
-            taskCalendar.setTime(ConvertStringToDate(tasks.get(i).getDate()));
-            if(dayNo == taskCalendar.get(Calendar.DAY_OF_MONTH) && displayMonth == taskCalendar.get(Calendar.MONTH) + 1
-            && displayYear == taskCalendar.get(Calendar.YEAR)) {
-                arrayList.add(tasks.get(i).getTask());
-                taskNumber.setText(arrayList.size()+" Tasks");
-            }
-        } // End for
 
         return view;
-    }
-
-    private Date ConvertStringToDate(String taskDate){
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-ddd", Locale.ENGLISH);
-        Date date = null;
-        try {
-            date = format.parse(taskDate);
-        } catch(ParseException e) {
-            e.printStackTrace();
-        }
-        return date;
     }
 
     @Override
