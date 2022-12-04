@@ -8,6 +8,8 @@ import android.hardware.SensorManager;
 
 public class Gyroscope {
 
+    //To de cuppel the register notfis from main activity
+    //Coordinate positions
     public interface Listener{
         void onRotation(float rx, float ry, float rz);
     }
@@ -20,6 +22,7 @@ public class Gyroscope {
     private Sensor sensor;
     private SensorEventListener sensorEventListener;
 
+    //Listening to the sensor's of the Emulator
     Gyroscope(Context context){
         sensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
         sensor =  sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);

@@ -13,6 +13,7 @@ import androidx.core.view.accessibility.AccessibilityClickableSpanCompat;
 public class Accelerometer {
 
     //To de cuppel the register notfis from main activity
+    //Coordinate positions
     public interface Listener{
         void onTranslation(float tx, float ty, float tz);
     }

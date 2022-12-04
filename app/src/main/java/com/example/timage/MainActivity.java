@@ -18,11 +18,14 @@ import com.squareup.picasso.Picasso;
 
 public class MainActivity extends AppCompatActivity {
 
+    //Variables
     private Accelerometer accelerometer;
     private Gyroscope gyroscope;
     private TextView myT;
+
     private int taskComplete;
     private int taskTotal;
+
     ImageView imageView;
     ImageView imageView2;
 
@@ -36,26 +39,31 @@ public class MainActivity extends AppCompatActivity {
 
         accelerometer = new Accelerometer(this);
         gyroscope = new Gyroscope(this);
+
         myT = findViewById(R.id.text);
 
-
         imageView = findViewById(R.id.imageone);
+        //Change opacity
         imageView.setAlpha(17);
 
         imageView2 = findViewById(R.id.imagetwo);
 
-
+        //Custom created image links
         String url = "https://cdn.discordapp.com/attachments/593568061924179968/1048798479482355782/Outline.png";
         String url2 = "https://cdn.discordapp.com/attachments/593568061924179968/1049040464285794304/Project.png";
 
+        //Picasso library to load the url's
         Picasso.with(this).load(url).into(imageView);
         Picasso.with(this).load(url2).into(imageView2);
 
+        //Method for calculating the size to the tasks
         calculateProgressFlame(15,15);
 
+        //LISTENERS FOR ACCELEROMETER AND GYROSCOPE
 
         accelerometer.setListener(new Accelerometer.Listener(){
             @Override
+            //On movement on X axis run animations
             public void onTranslation(float tx, float ty, float tz){
                 if(tx > 1.0f){
                     Techniques s = Techniques.Shake;
@@ -70,6 +78,7 @@ public class MainActivity extends AppCompatActivity {
 
         gyroscope.setListener(new Gyroscope.Listener() {
             @Override
+            //Change flame colors on rotation
             public void onRotation(float rx, float ry, float rz) {
                 //Straight - Left Right Rotation
                 if(rz > 1.0f){
@@ -95,6 +104,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    //Animating parameters
     private void animateImage(Techniques s) {
             YoYo.with(s)
                     .duration(700)
@@ -102,6 +112,7 @@ public class MainActivity extends AppCompatActivity {
                     .playOn(imageView2);
     }
 
+    //Method to grow the flame according to the amount of tasks completed
     private void calculateProgressFlame(int taskComplete, int taskTotal){
 
         int minH = 275;
