@@ -50,6 +50,7 @@ public class RecyclerItemTouchHelper extends ItemTouchHelper.SimpleCallback {
             AlertDialog dialog = builder.create();
             dialog.show();
         } // End if
+
     } // End onSwiped
 
     @Override
@@ -62,9 +63,10 @@ public class RecyclerItemTouchHelper extends ItemTouchHelper.SimpleCallback {
         View itemView = viewHolder.itemView;
         int backgroundCornerOffset = 20;
 
+        // If X is bigger than 0 then display edit icon, else its delete
         if(dX > 0){
             icon = ContextCompat.getDrawable(adapter.getContext(), R.drawable.ic_baseline_edit);
-            background = new ColorDrawable(ContextCompat.getColor(adapter.getContext(), R.color.dark_grey));
+            background = new ColorDrawable(ContextCompat.getColor(adapter.getContext(), R.color.white));
         }else{
             icon = ContextCompat.getDrawable(adapter.getContext(), R.drawable.ic_baseline_delete);
             background = new ColorDrawable(Color.RED);
@@ -97,7 +99,4 @@ public class RecyclerItemTouchHelper extends ItemTouchHelper.SimpleCallback {
         icon.draw(c);
     } // End child draw
 
-}
-public class RecyclerItemTouchHelper {
-    
 }
