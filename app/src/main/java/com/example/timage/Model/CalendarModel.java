@@ -1,19 +1,11 @@
-/**
- * Developed by: Jaycel Estrellado - C20372876
- */
-
 package com.example.timage.Model;
 
 public class CalendarModel {
-    String task,time,date,month,year;
+    String id, task,time,date,month,year;
 
-    public CalendarModel(String task, String time, String date, String month, String year) {
-        this.task = task;
-        this.time = time;
-        this.date = date;
-        this.month = month;
-        this.year = year;
-    }
+    public String getId() {return id;}
+
+    public void setId(String id) {this.id = id;}
 
     public String getTask() {
         return task;
