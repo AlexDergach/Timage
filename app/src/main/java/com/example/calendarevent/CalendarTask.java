@@ -1,4 +1,4 @@
-package com.example.calendarevent;
+package com.example.assignment;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,8 +13,8 @@ import android.view.View;
 import android.widget.CalendarView;
 import android.widget.EditText;
 
-import com.example.calendarevent.Adapter.ToDoAdapter;
-import com.example.calendarevent.Model.ToDoModel;
+import com.example.assignment.Adapter.ToDoAdapter;
+import com.example.assignment.Model.ToDoModel;
 
 import java.util.List;
 import java.util.Objects;
@@ -26,11 +26,7 @@ public class CalendarTask extends AppCompatActivity {
      */
 
     // Calendar variables
-    private SQLiteDBHandler dbHandler;
-    private EditText editText;
-    private CalendarView calendarView;
-    private String selectedDate;
-    private SQLiteDatabase sqLiteDatabase;
+    CustomCalendar customCalendar;
 
     // Task variables
     private RecyclerView tasksRecyclerView;
@@ -44,26 +40,8 @@ public class CalendarTask extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.calendar_task);
 
-        //####### Calendar ########
-        editText = findViewById(R.id.editText);
-        calendarView = findViewById(R.id.calendarView);
-
-        calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
-            @Override
-            public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
-                selectedDate = Integer.toString(year) + Integer.toString(month) + Integer.toString(dayOfMonth);
-                ReadDB(view);
-            }
-        });
-
-        try{
-            dbHandler = new SQLiteDBHandler(this, "CalendarEvent", null, 1);
-            sqLiteDatabase = dbHandler.getWritableDatabase();
-            sqLiteDatabase.execSQL("CREATE TABLE EventCal (Date TEXT, Event TEXT)");
-        } // End try
-        catch(Exception e){
-            e.printStackTrace();
-        } // End catch
+        //####### Calendar Start ########
+        customCalendar = (CustomCalendar)findViewById(R.id.custom_calendar);
         // ####### End Calendar ######
 
         //####### Task Start #######
@@ -89,17 +67,4 @@ public class CalendarTask extends AppCompatActivity {
 
     } // End class
 
-    public void ReadDB(View view){
-
-        String qry = "SELECT Event FROM EventCal WHERE Date =" + selectedDate;
-        try{
-            Cursor cur = sqLiteDatabase.rawQuery(qry, null);
-            cur.moveToFirst();
-            editText.setText(cur.getString(0));
-
-        }catch(Exception e) {
-            e.printStackTrace();
-            editText.setText("");
-        }// End catch
-    }//End class
 }
