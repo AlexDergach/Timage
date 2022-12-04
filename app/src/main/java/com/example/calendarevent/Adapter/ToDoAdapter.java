@@ -6,10 +6,9 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 
-import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.calendarevent.MainActivity;
+import com.example.calendarevent.CalendarTask;
 import com.example.calendarevent.Model.ToDoModel;
 import com.example.calendarevent.R;
 import com.example.calendarevent.TimageManager;
@@ -19,12 +18,12 @@ import java.util.List;
 public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ViewHolder> {
 
     private List<ToDoModel> todoList;
-    private MainActivity activity;
+    private CalendarTask activity;
     private TimageManager db;
 
-    public ToDoAdapter(MainActivity activity) {
-        this.activity = activity;
+    public ToDoAdapter(TimageManager db, CalendarTask activity) {
         this.db = db;
+        this.activity = activity;
 
     } // End of adapt
 
@@ -38,7 +37,8 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position){
+    public void onBindViewHolder(final ViewHolder holder, int position){
+        db.open();
 
         final ToDoModel item = todoList.get(position);
         holder.task.setText(item.getTask());
@@ -47,6 +47,7 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ViewHolder> {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked) {
+                    //Log.i("Check This", String.valueOf(item.getId()));
                     db.updateStatus(item.getId(), 1);
                 } else {
                     db.updateStatus(item.getId(), 0);
