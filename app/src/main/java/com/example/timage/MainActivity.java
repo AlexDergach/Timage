@@ -45,7 +45,7 @@ import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements Locationlistener {
 
-    TextView txtGreeting, txtWeather, txtTemp, txtTotalTasks, txtTasksToday;
+    TextView txtGreeting, txtWeather, txtTemp, txtFeelsLikeTemp, txtTotalTasks, txtTasksToday;
     ImageView weatherIcon;
     Button btn1, btn2;
 
@@ -75,6 +75,7 @@ public class MainActivity extends AppCompatActivity implements Locationlistener 
         txtWeather = findViewById(R.id.txtWeather);
 
         txtTemp = findViewById(R.id.txtTemp);
+        txtFeelsLikeTemp = findViewById(R.id.txtFeelsLikeTemp);
         weatherIcon = (ImageView) findViewById(R.id.icon);
 
         txtTotalTasks = findViewById(R.id.txtTotalTasks);
@@ -171,8 +172,9 @@ public class MainActivity extends AppCompatActivity implements Locationlistener 
                     double temp = jsonObjectMain.getDouble("temp") - 273.15;
                     double feelsLike = jsonObjectMain.getDouble("feels_like") - 273.15;
 
-                    txtWeather.setText(main);
-                    txtTemp.setText(df.format(temp) + " °C" + "feels like " + df.format(feelsLike) + " °C");
+                    txtWeather.setText("Skies" + main);
+                    txtTemp.setText(df.format(temp) + " °C" );
+                    txtFeelsLikeTemp.setText("feels like " + df.format(feelsLike) + " °C");
 
                     // Dynamically get weather Icon
                     iconName = "@drawable/w" + icon;
