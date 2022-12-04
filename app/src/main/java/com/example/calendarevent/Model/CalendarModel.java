@@ -1,4 +1,4 @@
-package com.example.assignment.Model;
+package com.example.calendarevent.Model;
 
 public class CalendarModel {
     String task,time,date,month,year;
