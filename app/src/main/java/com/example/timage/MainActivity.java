@@ -8,6 +8,7 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.icu.util.Calendar;
@@ -50,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
     Button btn1, btn2, btn3;
 
     private final String url = "https://api.openweathermap.org/data/2.5/weather?";
-    private final String appid = "Nope";//Please Refer to report API id sent sepereatly from the code due to privacy reasons
+    private final String appid = "1a05432d23660a1dfcdb35283e1e0f82";//Please Refer to report API id sent sepereatly from the code due to privacy reasons
     DecimalFormat df = new DecimalFormat("#.##");
 
     public String icon;
@@ -73,6 +74,10 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        TimageManager db = new TimageManager(this);
+
+        db.open();
+
         txtGreeting = findViewById(R.id.txtGreeting);
         txtWeather = findViewById(R.id.txtWeather);
 
@@ -81,11 +86,16 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         weatherIcon = (ImageView) findViewById(R.id.icon);
 
         txtTotalTasks = findViewById(R.id.txtTotalTasks);
-        txtTasksToday = findViewById(R.id.txtTasksToday);
+//        txtTasksToday = findViewById(R.id.txtTasksToday);
 
         btn1 = (Button)findViewById(R.id.btn1);
         btn2 = (Button)findViewById(R.id.btn2);
 		btn3 = (Button)findViewById(R.id.btn3);
+
+        Cursor allTasks = db.getAllTasks();
+        txtTotalTasks.setText("Total tasks due:" + allTasks.getCount());
+
+        db.close();
 
         // Runtime permissions - Get Access Location
         if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION)
@@ -159,8 +169,10 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         }   // end elseIf()
 
 
-        txtTotalTasks.setText("Total tasks due: x");
-        txtTasksToday.setText("Tasks due today: x");
+        //txtTotalTasks.setText("Total tasks due: x");
+//        txtTasksToday.setText("Tasks due today: x");
+
+
 
     }   // end onCreate()
 
@@ -246,6 +258,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         try {
             Geocoder geocoder = new Geocoder(MainActivity.this, Locale.getDefault());
 
+            Toast.makeText(this, "Location changed", Toast.LENGTH_SHORT);
             //Address class for fetching address, country ect
             addresses = geocoder.getFromLocation(location.getLatitude(),location.getLongitude(),1);
             Log.i("Test", Integer.toString(addresses.size()));

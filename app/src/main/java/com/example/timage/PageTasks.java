@@ -60,15 +60,15 @@ public void run()
 
         Intent category_id_intent = getIntent();
         cat_id_taken = category_id_intent.getLongExtra("category_id", cat_id_taken);
-
+        Log.i("checkThis",String.valueOf(cat_id_taken));
         // open database
         db.open();
 
-        db.insertTask("test",22,12,2025,"13:00","test",0,1);
-        db.insertTask("test 2",15,6,2023,"17:30","test 2",1,1);
-
-        db.insertTask("test 3",1,3,2024,"01:40","test 3",1,2);
-        db.insertTask("test 4",9,1,2022,"08:21","test 4",0,2);
+//        db.insertTask("test",22,12,2025,"13:00","test",0,1);
+//        db.insertTask("test 2",15,6,2023,"17:30","test 2",1,1);
+//
+//        db.insertTask("test 3",1,3,2024,"01:40","test 3",1,2);
+//        db.insertTask("test 4",9,1,2022,"08:21","test 4",0,2);
 
 
         addTaskBtn = (Button) findViewById(R.id.addTask);

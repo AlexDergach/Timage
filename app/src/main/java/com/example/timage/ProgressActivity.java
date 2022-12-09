@@ -1,7 +1,9 @@
 package com.example.timage;
 
+import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -31,6 +33,9 @@ public class ProgressActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.progress);
 
+        TimageManager db = new TimageManager(this);
+        db.open();
+
         accelerometer = new Accelerometer(this);
         gyroscope = new Gyroscope(this);
 
@@ -48,8 +53,15 @@ public class ProgressActivity extends AppCompatActivity {
         Picasso.with(this).load(url).into(imageView);
         Picasso.with(this).load(url2).into(imageView2);
 
+        Cursor allTasks = db.getAllTasks();
+        Cursor allCompleted = db.getCompletedTasks();
+
+        Log.i("checkThis1",String.valueOf(allCompleted.getCount()));
+
+//        int countCompleted = allTasks.getCount(allTasks.getColumnIndex("task_completed"));
+
         //Method for calculating the size to the tasks
-        calculateProgressFlame(10,15);
+        calculateProgressFlame(allCompleted.getCount(),allTasks.getCount());
 
         //LISTENERS FOR ACCELEROMETER AND GYROSCOPE
 

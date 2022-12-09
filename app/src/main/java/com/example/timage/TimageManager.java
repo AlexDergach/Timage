@@ -182,6 +182,17 @@ public class TimageManager
         return task_cursor;
     }
 
+    public Cursor getCompletedTasks()
+    {
+
+        String query = "select " + tdh.TABLE2_KEY_COMPLETED + " from " + tdh.DATABASE_TABLE2 + " where " + tdh.TABLE2_KEY_COMPLETED + "=" + 1;
+
+        Cursor allCompleted = db.rawQuery(query,null);
+
+        return allCompleted;
+    }
+
+
     // Gets all rows from category_tbl
     public Cursor getAllTasks()
     {
